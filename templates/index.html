@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="/staticFiles/main.css"/>
+    </head>
+    <body>
+     
+        <div class="main">
+            <h1>Data Analysis Application</h1>
+      
+            <p>Choose csv file to upload</p>
+           
+            
+              <form method="POST" enctype="multipart/form-data" action="/">
+                <input type="file" id="myFile" name="uploaded-file" accept=".csv">
+                <input type="submit" value="Submit" name="Submit_action">
+            </form>
+        </div>
+
+        
+        <table>
+            <thead>
+    
+              <tr>
+                {% for col in column_names %}
+                <th>
+                
+                  {{col}}
+                 
+                </th>
+                {% endfor %}
+              </tr>
+    
+            </thead>
+            <tbody>
+              {% for row in row_data %}
+              <tr>
+                {% for col, row_ in zip(column_names, row) %}
+                <td>{{row_}}</td>
+                {% endfor %}
+              </tr>
+              {% endfor %}
+    
+             
+            </tbody>
+      
+          </table>
+         
+
+        
+        
+    </body>
+   
+</html>
