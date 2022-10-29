@@ -20,6 +20,11 @@ body {
   
 }
 
+.img_center {
+  display: flex;
+  justify-content: center;
+}
+
 #horizontal_check_box {
   float:left;
 }

@@ -3,7 +3,16 @@
     <head>
         <link rel="stylesheet" href="/staticFiles/main.css"/>
     </head>
-    <body>
+    
+      <body onload="flashMessage()">
+        <script>
+          function flashMessage() {
+            if ("{{ flash_message }}" == "True") {
+              
+              alert("Rows:1 or 2 and Columns: 1 or 2");
+            }
+          }
+        </script>
       
      
         <div class="main">
@@ -116,6 +125,21 @@
         <br>
         <br>
         <br>
+        <div class="img_center">
+          {% if plot_url %}
+        <img src="data:image/jpg;base64, {{ plot_url }}">
+
+        {% endif %}
+
+        </div>
+        
+
+        <br>
+        <br>
+        <br>
+        <br>
+     
+
         
     </body>
 

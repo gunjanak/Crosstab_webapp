@@ -5,6 +5,12 @@ from flask import Flask, render_template, request, session,redirect
 import os
 from werkzeug.utils import secure_filename
 import pandas as pd
+import sys
+
+import base64
+from io import BytesIO
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 
 
 Flag = 0
@@ -44,12 +50,9 @@ def index():
             row_data = list(df.head().values.tolist())
             print(column_names)
             print(type(column_names)) 
-            tables=""
-            titles=""
 
-
-        
-
+            return render_template('index.html',column_names=column_names, row_data=row_data,zip=zip)
+            
         elif request.form.get('Checkbox_action')=='Checkbox_Submit':
             print('Checkbox used')
             #The index of crosstab
@@ -58,10 +61,6 @@ def index():
             #The column of crosstab
             column_list = request.form.getlist("checkbox_columns")
             print(column_list)
-            
-
-           
-
             #Rereading the uploaded file and getting data 
             csv_file_path = session.get('uploaded_csv_file_path',None)
             print(csv_file_path)
@@ -71,8 +70,7 @@ def index():
             column_names = column_names.tolist()
             row_data = list(df.head().values.tolist())
             print(column_names)
-            tables=""
-            titles=""
+          
 
             if(len(index_list)==1 and len(column_list)==1):
                 index_crosstab = [df[index_list[0]]]
@@ -91,13 +89,38 @@ def index():
 
 
             #Calling the crosstab function of pandas
-            output_df = pd.crosstab(index_crosstab,col_crosstab)
-            print(output_df)
+            try:
+                output_df = pd.crosstab(index_crosstab,col_crosstab)
+                print('this is output df')
+                print(output_df)
 
-            #Generating the tables for html tables
-            tables = [output_df.to_html(classes='data')]
-            #Generating the titles for html table
-            titles = output_df.columns.values
+                #plotting figure
+                plt.figure()
+                ax = output_df.plot(kind='barh',figsize=(12,6),stacked=True)
+                ax.yaxis.set_tick_params(labelsize=7)
+                for bars in ax.containers:
+                    ax.bar_label(bars)
+                plt.legend(loc='best')
+                
+                
+                # Save it to a temporary buffer.
+                buf = BytesIO()
+                plt.savefig(buf, format="jpg")
+                plt.savefig(os.path.join(app.config['UPLOAD_FOLDER'],'plot.jpg'))
+                plot_url = base64.b64encode(buf.getvalue()).decode('utf8')
+               
+                #Generating the tables for html tables
+                tables = [output_df.to_html(classes='data')]
+                #Generating the titles for html table
+                titles = output_df.columns.values
+
+                return render_template('index.html',column_names=column_names, row_data=row_data, tables=tables, titles=titles,zip=zip,plot_url=plot_url)
+                
+            except Exception as e:
+                print("Oops!", e.__class__, "occurred.")
+                return render_template('index.html',column_names=column_names, row_data=row_data,zip=zip,flash_message=True)
+
+            
           
 
         else:
@@ -108,12 +131,11 @@ def index():
         csv_file_path = ""
         column_names=""
         row_data=""
-        tables=""
-        titles=""
+        
     
    
 
-    return render_template('index.html',column_names=column_names, row_data=row_data, tables=tables, titles=titles,zip=zip)
+    return render_template('index.html',column_names=column_names, row_data=row_data,zip=zip)
 
 
 
