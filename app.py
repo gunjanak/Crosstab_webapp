@@ -57,14 +57,7 @@ def index():
             column_list = request.form.get("df_column_selection2")
             print(column_list)
 
-            #Calling the crosstab function of pandas
-            output_df = pd.crosstab(df[index_list],df[column_list])
-            print(output_df)
-
-            #Generating the tables for html tables
-            tables = [output_df.to_html(classes='data')]
-            #Generating the titles for html table
-            titles = output_df.columns.values
+           
 
             #Rereading the uploaded file and getting data 
             csv_file_path = session.get('uploaded_csv_file_path',None)
@@ -75,6 +68,16 @@ def index():
             column_names = column_names.tolist()
             row_data = list(df.head().values.tolist())
             print(column_names)
+
+
+             #Calling the crosstab function of pandas
+            output_df = pd.crosstab(df[index_list],df[column_list])
+            print(output_df)
+
+            #Generating the tables for html tables
+            tables = [output_df.to_html(classes='data')]
+            #Generating the titles for html table
+            titles = output_df.columns.values
 
 
             
