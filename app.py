@@ -48,14 +48,17 @@ def index():
             titles=""
 
 
-        elif request.form.get('Submit_action')=='Col_Submit':
-            print('Columns selected')
+        
+
+        elif request.form.get('Checkbox_action')=='Checkbox_Submit':
+            print('Checkbox used')
             #The index of crosstab
-            index_list = request.form.get("df_column_selection")
+            index_list = request.form.getlist("checkbox_rows")
             print(index_list)
             #The column of crosstab
-            column_list = request.form.get("df_column_selection2")
+            column_list = request.form.getlist("checkbox_columns")
             print(column_list)
+            
 
            
 
@@ -68,20 +71,33 @@ def index():
             column_names = column_names.tolist()
             row_data = list(df.head().values.tolist())
             print(column_names)
+            tables=""
+            titles=""
+
+            if(len(index_list)==1 and len(column_list)==1):
+                index_crosstab = [df[index_list[0]]]
+                col_crosstab = df[column_list[0]]
+            elif(len(index_list)==2 and len(column_list)==1):
+                index_crosstab = [df[index_list[0]],df[index_list[1]]]
+                col_crosstab = df[column_list[0]]
+
+            elif(len(index_list)==1 and len(column_list)==2):
+                index_crosstab = [df[index_list[0]]]
+                col_crosstab = [df[column_list[0]],df[column_list[1]]]
+
+            elif(len(index_list)==2 and len(column_list)==2):
+                index_crosstab = [df[index_list[0]],df[index_list[1]]]
+                col_crosstab = [df[column_list[0]],df[column_list[1]]]
 
 
-             #Calling the crosstab function of pandas
-            output_df = pd.crosstab(df[index_list],df[column_list])
+            #Calling the crosstab function of pandas
+            output_df = pd.crosstab(index_crosstab,col_crosstab)
             print(output_df)
 
             #Generating the tables for html tables
             tables = [output_df.to_html(classes='data')]
             #Generating the titles for html table
             titles = output_df.columns.values
-
-
-            
-     
           
 
         else:
