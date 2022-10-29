@@ -46,9 +46,36 @@
       
           </table>
          
+        
+          {% if column_names[0] %}
+          <p>Rows (stubs) of crosstab</p> 
+          <form name="df_column_selection" action="/" method="POST">
+                {% for column in column_names %}
+                    <input type="radio" id="df_column_selection" name="df_column_selection" value="{{column}}">
+                    <label for="{{column}}">{{column}}</label><br>
+                {% endfor %}
+            </select>
+           
+        
+
+        <p>Column (banners) of crosstab</p>
+        
+          {% for column in column_names %}
+          <input type="radio" id="df_column_selection2" name="df_column_selection2" value="{{column}}">
+          <label for="{{column}}">{{column}}</label><br>
+      {% endfor %}
+          
+          <input type="submit" value="Col_Submit" name="Submit_action">
+      </form>
+
+
+        {% endif %}
 
         
-        
+        {% for table in tables %}
+            {{titles[loop.index]}}
+            {{ table|safe }}
+        {% endfor %}
     </body>
    
 </html>

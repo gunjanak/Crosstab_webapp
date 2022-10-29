@@ -1,0 +1,6 @@
+table, th, td {
+    border: 1px solid;
+    
+    white-space: nowrap;
+    max-width: 100%;
+  }
