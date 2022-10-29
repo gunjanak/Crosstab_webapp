@@ -4,8 +4,10 @@
         <link rel="stylesheet" href="/staticFiles/main.css"/>
     </head>
     <body>
+      
      
         <div class="main">
+          <div class="center">
             <h1>Data Analysis Application</h1>
       
             <p>Choose csv file to upload</p>
@@ -15,10 +17,14 @@
                 <input type="file" id="myFile" name="uploaded-file" accept=".csv">
                 <input type="submit" value="Submit" name="Submit_action">
             </form>
+          </div>
+            
         </div>
 
-        
-        <table>
+
+        {% if column_names[0] %}
+        <div class="table_center">
+          <table>
             <thead>
     
               <tr>
@@ -45,33 +51,74 @@
             </tbody>
       
           </table>
+
+        </div>
+        {% endif %}
+        
          
         
           {% if column_names[0] %}
       <h3>Show Checkboxes</h3>
         <form name="df_checkbox" action="/" method="POST">
           <p>Stubs of crosstab</p>
+          
+
           {% for column in column_names %}
-          <input type="checkbox" id="{{column}}" name="checkbox_rows" value="{{column}}">
+          <div id="horizontal_check_box">
+           
+            <input type="checkbox" id="{{column}}" name="checkbox_rows" value="{{column}}">
           <label for="{{column}}">{{column}}</label><br>
+          
+          </div>
           {% endfor %}
+          
 
-          <p>Banners of crosstab</p>
-          {% for column in column_names %}
-          <input type="checkbox" id="{{column}}" name="checkbox_columns" value="{{column}}">
-          <label for="{{column}}">{{column}}</label><br>
+
+            <br>
+            <p>Banners of crosstab</p>
+         
+
+            {% for column in column_names %}
+          <div id="horizontal_check_box">
+            
+            <input type="checkbox" id="{{column}}" name="checkbox_columns" value="{{column}}">
+            <label for="{{column}}">{{column}}</label><br>
+            
+          </div>
           {% endfor %}
+         
 
-
-          <input type="submit" value="Checkbox_Submit" name="Checkbox_action">
+          <br>
+          <br>
+          <br>
+          <div style="float: left;">
+            <input type="submit" value="Checkbox_Submit" name="Checkbox_action">
+          </div>
+          
+          
         </form>
         {% endif %}
 
+
+        <br>
+        <br>
+
         
-        {% for table in tables %}
-            {{titles[loop.index]}}
+        <div class="table_center">
+          {% for table in tables %}
+           
             {{ table|safe }}
         {% endfor %}
+
+
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        
     </body>
+
+
    
 </html>

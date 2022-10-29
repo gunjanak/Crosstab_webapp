@@ -1,6 +1,42 @@
+body {
+  background-color: antiquewhite;
+
+}
+.main {
+  background-color: tomato;
+  color: white;
+  border: 2px solid black;
+  margin: 20px;
+  padding: 20px;
+}
+.center {
+  margin: auto;
+  width: 40%;
+
+}
+.table_center {
+  display: flex;
+  justify-content: center;
+  
+}
+
+#horizontal_check_box {
+  float:left;
+}
+
 table, th, td {
-    border: 1px solid;
-    
-    white-space: nowrap;
-    max-width: 100%;
+
+  
+  text-align: center;
   }
+  th {
+    background: lightblue;
+    
+  }
+  table {
+    border-collapse: collapse;
+    
+    width: 100%;
+  }
+
+  
