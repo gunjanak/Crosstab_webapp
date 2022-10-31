@@ -2,6 +2,7 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="/staticFiles/main.css"/>
+         
     </head>
     
       <body onload="flashMessage()">
@@ -24,7 +25,7 @@
             
               <form method="POST" enctype="multipart/form-data" action="/">
                 <input type="file" id="myFile" name="uploaded-file" accept=".csv">
-                <input type="submit" value="Submit" name="Submit_action">
+                <input type="submit" id="myFileSubmit" value="Submit" name="Submit_action">
             </form>
           </div>
             
@@ -138,11 +139,15 @@
         <br>
         <br>
         <br>
-     
+       
+        
+       
 
         
     </body>
 
 
+ <script type="text/javascript" src="/staticFiles/js/main.js"></script>
    
+       
 </html>
